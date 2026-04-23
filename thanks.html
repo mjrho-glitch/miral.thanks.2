@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>감사해U</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg-base:#F9FAFB;
+  --bg-tint:#F4FBF7;
+  --ink-900:#0F172A;
+  --ink-700:#334155;
+  --ink-500:#64748B;
+  --ink-400:#94A3B8;
+  --ink-300:#CBD5E1;
+  --ink-200:#E2E8F0;
+  --line:rgba(15,23,42,0.06);
+  --line-soft:rgba(15,23,42,0.04);
+  --em-50:#ECFDF5;
+  --em-100:#D1FAE5;
+  --em-200:#A7F3D0;
+  --em-300:#6EE7B7;
+  --em-400:#34D399;
+  --em-500:#10B981;
+  --em-600:#059669;
+  --em-700:#047857;
+  --em-800:#065F46;
+  --em-900:#064E3B;
+  /* 스프링 바운스 */
+  --spring:cubic-bezier(0.34,1.56,0.64,1);
+  --ease-out:cubic-bezier(0.22,0.61,0.36,1);
+}
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box;}
+html,body,#root{height:100%;}
+body{
+  font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  letter-spacing:-0.02em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(16,185,129,0.06), transparent 60%),
+    radial-gradient(1000px 500px at 110% 110%, rgba(5,150,105,0.05), transparent 55%),
+    var(--bg-base);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  color:var(--ink-900);
+}
+.logo-font{font-family:'Jua',sans-serif;letter-spacing:-0.01em;}
+.fw700{font-weight:700;letter-spacing:-0.025em;}
+.fw800{font-weight:800;letter-spacing:-0.035em;}
+.fw900{font-weight:900;letter-spacing:-0.04em;}
+.track-tight{letter-spacing:-0.025em;}
+.track-tighter{letter-spacing:-0.035em;}
+
+/* 카드: 토스 스타일의 디퓨즈 다중 그림자 */
+.card{
+  background:#fff;
+  border:1px solid var(--line-soft);
+  border-radius:24px;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,0.025),
+    0 4px 14px rgba(15,23,42,0.035),
+    0 20px 48px rgba(15,23,42,0.04);
+}
+.card-hero{
+  background:linear-gradient(180deg,#FFFFFF 0%, #FAFDFB 100%);
+  border:1px solid rgba(16,185,129,0.08);
+  border-radius:28px;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,0.025),
+    0 4px 18px rgba(15,23,42,0.04),
+    0 24px 60px rgba(6,95,70,0.06);
+}
+
+/* 버튼: 스프링 바운스 */
+.btn{
+  transition:transform 0.28s var(--spring), filter 0.2s var(--ease-out), box-shadow 0.28s var(--ease-out), background 0.2s var(--ease-out);
+  will-change:transform;
+}
+.btn:hover:not(:disabled){transform:translateY(-1.5px);filter:brightness(1.03);}
+.btn:active:not(:disabled){transform:scale(0.965);transition-duration:0.12s;}
+
+.btn-g{
+  background:linear-gradient(135deg,#10B981 0%, #059669 58%, #047857 100%);
+  color:#fff;font-weight:700;letter-spacing:-0.02em;
+  box-shadow:
+    0 1px 2px rgba(6,95,70,0.2),
+    0 6px 16px rgba(16,185,129,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn-g:hover:not(:disabled){
+  background:linear-gradient(135deg,#059669 0%, #047857 60%, #065F46 100%);
+  box-shadow:
+    0 1px 2px rgba(6,95,70,0.25),
+    0 10px 24px rgba(16,185,129,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn-g:disabled{
+  background:linear-gradient(135deg,#E2E8F0,#CBD5E1);
+  color:#fff;box-shadow:none;cursor:not-allowed;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{0%{opacity:0;transform:scale(.94) translateY(4px)}60%{transform:scale(1.015) translateY(0);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes scaleIn{0%{opacity:0;transform:scale(.7)}60%{transform:scale(1.03);opacity:1}100%{transform:scale(1)}}
+@keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes bounceY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes sproutAnim{0%,100%{transform:translateY(0) rotate(-1deg)}30%{transform:translateY(-8px) rotate(2deg)}60%{transform:translateY(-2px) rotate(-1deg)}}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes badgeIn{0%{transform:scale(0) translateY(8px);opacity:0}60%{transform:scale(1.1) translateY(-2px);opacity:1}100%{transform:scale(1) translateY(0);opacity:1}}
+@keyframes arrowUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseRing{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.28)}50%{box-shadow:0 0 0 12px rgba(16,185,129,0)}}
+@keyframes countPop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes spin-cw{to{transform:rotate(360deg)}}
+@keyframes floatA{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes floatB{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-6px) rotate(-3deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.fadeIn{animation:fadeIn .35s var(--ease-out) forwards}
+.slideUp{animation:slideUp .42s var(--spring) forwards}
+.popIn{animation:popIn .38s var(--spring) forwards}
+.scaleIn{animation:scaleIn .48s var(--spring) forwards}
+.wiggle{animation:wiggle 3s ease-in-out infinite;display:inline-block}
+.bounceY{animation:bounceY 2s ease-in-out infinite;display:inline-block}
+.sprout{animation:sproutAnim 1.6s ease-in-out infinite;display:inline-block}
+.pulseRing{animation:pulseRing 2s ease-in-out infinite}
+.countPop{animation:countPop 1.8s ease-in-out infinite}
+
+/* 직원 리스트 템플릿 카드 */
+.tmpl{
+  cursor:pointer;
+  border:1.5px solid var(--line);
+  background:#fff;
+  border-radius:16px;
+  transition:all .3s var(--spring);
+}
+.tmpl:hover{transform:translateY(-1.5px);box-shadow:0 6px 18px rgba(15,23,42,0.06);border-color:rgba(16,185,129,0.25);}
+.tmpl.sel{
+  background:linear-gradient(180deg,#ECFDF5 0%, #F0FDF4 100%);
+  border-color:#10B981;
+  box-shadow:0 4px 14px rgba(16,185,129,.14), inset 0 0 0 1px rgba(16,185,129,0.15);
+}
+
+/* 부서 헤더 */
+.dept-h{
+  position:sticky;top:0;z-index:1;
+  background:rgba(236,253,245,0.92);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  padding:6px 14px;font-size:10px;font-weight:800;color:#047857;
+  text-transform:uppercase;letter-spacing:0.08em;
+  border-bottom:1px solid rgba(16,185,129,0.1);
+}
+
+/* Focus ring */
+input:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px rgba(16,185,129,.14), inset 0 0 0 1.5px #10B981;}
+
+/* 스크롤바 */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:rgba(16,185,129,0.25);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(16,185,129,0.4);}
+
+input,textarea,select{font-family:inherit;}
+body.modal-open{overflow:hidden;}
+.tabular{font-variant-numeric:tabular-nums;}
+
+/* Confetti */
+.cbit{position:fixed;top:-20px;z-index:200;width:8px;height:12px;border-radius:2px;pointer-events:none;animation:confettiFall 2.5s ease-in forwards;}
+
+/* 스피너 */
+.sp{display:inline-block;width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.32);border-top-color:#fff;animation:spin-cw 0.7s linear infinite;flex-shrink:0;}
+.sp-g{border-color:rgba(16,185,129,0.18);border-top-color:#10B981;}
+
+.pin-input::placeholder{font-size:0.78rem;font-weight:500;letter-spacing:0.02em;color:var(--ink-400);}
+
+/* 글래스모피즘 */
+.glass{
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.5);
+  box-shadow:
+    0 1px 2px rgba(15,23,42,0.04),
+    0 24px 60px rgba(15,23,42,0.12);
+}
+.glass-overlay{
+  background:rgba(15,23,42,0.25);
+  backdrop-filter:blur(10px) saturate(140%);
+  -webkit-backdrop-filter:blur(10px) saturate(140%);
+}
+.glass-light{
+  background:rgba(249,250,251,0.85);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+}
+
+/* 입력 필드 */
+.ipt{
+  background:#F8FAFC;
+  border:1.5px solid var(--line);
+  border-radius:16px;
+  transition:border-color .2s var(--ease-out), background .2s var(--ease-out);
+}
+.ipt:hover{border-color:rgba(16,185,129,0.22);background:#fff;}
+
+/* Chip */
+.chip-g{
+  background:linear-gradient(135deg,#ECFDF5 0%, #D1FAE5 100%);
+  color:#047857;
+  border:1px solid rgba(16,185,129,0.18);
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-type="module">
+const {useState,useEffect,useMemo,useCallback} = React;
+
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzazKAj6_cPDImlO0jT7tp8w11O8GVF9QBbspL4EQPMSSKuA7FLcbF9ljqGlog7Doiohg/exec";
+
+const STAFF = [
+  "재단-정형석-상임대표","복지부문-한상호-복지부문장","경영지원본부-정성찬-본부장",
+  "전산팀-김학수-대리","전산팀-박주미-간사","전산팀-도정민-간사",
+  "총무팀-차정현-팀장","총무팀-김태우-대리","총무팀-오승영-대리",
+  "기획실-조요셉-실장","기획실-송혜란-팀장","기획실-노다은-간사","기획실-석진한-대리","기획실-이서진-간사",
+  "인재경영실-이현진-실장","인재경영실-조은애-팀장","인재경영실-나경미-과장","인재경영실-김지은-간사","인재경영실-손경빈-간사","인재경영실-문정은-팀장","인재경영실-김진일-간사","인재경영실-노민정-간사","인재경영실-지철호-팀장",
+  "재무실-권순자-실장","재무실-강지수-팀장","재무실-고지후-팀장","재무실-류혜준-간사","재무실-최선우-간사","재무실-권예진-간사","재무실-박재연-대리","재무실-조아영(B)-대리","재무실-박혜린-간사",
+  "커뮤니케이션실-이수은-실장","커뮤니케이션실-강선덕-홍보위원장","커뮤니케이션실-전정우-대리","커뮤니케이션실-박지수-간사","커뮤니케이션실-오솔길-팀장","커뮤니케이션실-유종화-간사","커뮤니케이션실-조예본-간사","커뮤니케이션실-노혜진-간사","커뮤니케이션실-김봉섭-팀장","커뮤니케이션실-배용호-과장","커뮤니케이션실-장설아-대리","커뮤니케이션실-임정인-간사","커뮤니케이션실-고은솔-팀장","커뮤니케이션실-조현서-간사",
+  "모금사업본부-고성원-본부장",
+  "미디어사업실-윤성우-실장","미디어사업실-김민아-팀장","미디어사업실-황재원-대리","미디어사업실-최영은-간사",
+  "온라인사업실-박송희-실장","온라인사업실-임경아-팀장","온라인사업실-전언지-대리","온라인사업실-임차영-간사","온라인사업실-송시명-대리","온라인사업실-이민아-간사","온라인사업실-방기빈-대리","온라인사업실-문한나-팀장","온라인사업실-이성은-간사","온라인사업실-김민교-간사","온라인사업실-정이든-팀장","온라인사업실-유은예-대리","온라인사업실-이내산-간사",
+  "후원협력실-유경민-팀장","후원협력실-김다은(B)-대리","후원협력실-유은혜-대리","후원협력실-윤주영-대리","후원협력실-김소희(B)-간사","후원협력실-권해란-대리","후원협력실-경지혜-팀장","후원협력실-이예준-대리","후원협력실-이가을-대리","후원협력실-김지윤-간사","후원협력실-박하진-간사","후원협력실-박한별-대리","후원협력실-이현선-간사","후원협력실-최미정-간사","후원협력실-구주현-간사","후원협력실-조윤정-간사","후원협력실-석원영-팀장","후원협력실-권용일-대리","후원협력실-정현석-대리","후원협력실-김소은-간사",
+  "대외협력실-연보라-실장","대외협력실-안석환-팀장","대외협력실-최인기-대리","대외협력실-김종진-대리","대외협력실-이창석-간사","대외협력실-김현준-간사","대외협력실-김건우-간사","대외협력실-고혜련-간사","대외협력실-신선호-간사","대외협력실-김소빈-간사","대외협력실-홍영서-간사","대외협력실-유선교-간사","대외협력실-한은선-간사","대외협력실-김한중-간사","대외협력실-이요한-간사","대외협력실-최예진-간사","대외협력실-최휘규-간사","대외협력실-배기웅-간사","대외협력실-양승찬-간사","대외협력실-손효정-간사","대외협력실-이창조-간사","대외협력실-김현영-대리","대외협력실-김형주-대리","대외협력실-김남철-대리","대외협력실-서영민-간사","대외협력실-유진-간사","대외협력실-김광훈-팀장","대외협력실-박재경-간사","대외협력실-임지륜-간사","대외협력실-조아영(A)-간사","대외협력실-황태희-간사","대외협력실-정우섭-과장","대외협력실-김세례-대리","대외협력실-안미란-대리","대외협력실-조재영-대리","대외협력실-한대인-대리","대외협력실-이현옥-간사","대외협력실-이광수-간사","대외협력실-김아영-대리","대외협력실-김은지-대리","대외협력실-이경욱-팀장","대외협력실-황나현-대리","대외협력실-차여경-간사","대외협력실-이민우-간사","대외협력실-박상수-간사","대외협력실-김봉주-간사","대외협력실-엄상현-대리","대외협력실-이애진-팀장","대외협력실-이지호-간사","대외협력실-신민지-간사","대외협력실-신지혜-간사","대외협력실-임지혜-간사","대외협력실-정은지-간사","대외협력실-이준규-팀장","대외협력실-송재린-간사","대외협력실-정란-대리","대외협력실-임주홍-간사",
+  "ESG협력실-조성결-실장","ESG협력실-황슬기-팀장","ESG협력실-이은용-대리","ESG협력실-김지수-대리","ESG협력실-부예은-대리","ESG협력실-박지혜-대리","ESG협력실-서지민-대리","ESG협력실-이수진(A)-간사","ESG협력실-이수진(B)-간사","ESG협력실-심현진-대리","ESG협력실-조유나-팀장","ESG협력실-하은성-대리","ESG협력실-장하영(A)-간사","ESG협력실-이시온-간사","ESG협력실-김호경-팀장","ESG협력실-이엄지-대리","ESG협력실-장하영(B)-대리","ESG협력실-민주원-대리",
+  "나눔사업본부-황대벽-본부장",
+  "국내사업실-김래홍-실장","국내사업실-장희수-팀장","국내사업실-양철훈-대리","국내사업실-최재민-대리","국내사업실-조영훈-대리","국내사업실-조수연-간사","국내사업실-고민준-대리","국내사업실-정힘찬-대리","국내사업실-강은혜-대리","국내사업실-안하영-간사","국내사업실-엄효상-간사","국내사업실-박우홍-간사","국내사업실-서다인-간사","국내사업실-우요섭-팀장","국내사업실-조승혜-대리","국내사업실-임재희-대리","국내사업실-배정미-팀장","국내사업실-김상아-대리",
+  "밀알문화예술센터-정규태-센터장","밀알문화예술센터-나명훈-과장","밀알문화예술센터-김민정-팀장","밀알문화예술센터-백승진-대리","밀알문화예술센터-강연구-간사","밀알문화예술센터-명상우-팀장","밀알문화예술센터-김한솔(A)-간사","밀알문화예술센터-최미은-간사",
+  "밀알장애인활동지원센터-구자영-센터장","밀알장애인활동지원센터-유권신-사무국장","밀알장애인활동지원센터-김은비-팀장","밀알장애인활동지원센터-정우림-대리","밀알장애인활동지원센터-홍혜원-간사","밀알장애인활동지원센터-박은진-팀장","밀알장애인활동지원센터-권혜주-간사","밀알장애인활동지원센터-신예지-간사","밀알장애인활동지원센터-임경천-간사","밀알장애인활동지원센터-장지현-간사","밀알장애인활동지원센터-정하연-간사","밀알장애인활동지원센터-허정모-간사","밀알장애인활동지원센터-현주희-간사",
+  "주간활동서비스센터-정우석-센터장","주간활동서비스센터-김성민-대리","주간활동서비스센터-손승현-간사","주간활동서비스센터-김영현-대리","주간활동서비스센터-박채원-간사","주간활동서비스센터-이한별-간사",
+  "헬렌켈러센터-홍유미-센터장","헬렌켈러센터-임민경-과장","헬렌켈러센터-박새아-간사","헬렌켈러센터-최혜인-간사","헬렌켈러센터-박혜경-팀장","헬렌켈러센터-이진호-간사",
+  "헬렌켈러 시청각장애인학습지원센터-구영호-센터장","헬렌켈러 시청각장애인학습지원센터-손창환-간사","헬렌켈러 시청각장애인학습지원센터-홍수경-대리","헬렌켈러 시청각장애인학습지원센터-백수정-대리","헬렌켈러 시청각장애인학습지원센터-정연주-간사","헬렌켈러 시청각장애인학습지원센터-김다연-간사","헬렌켈러 시청각장애인학습지원센터-김선영-간사",
+  "국제사업실-김대현-실장","국제사업실-이하람-대리","국제사업실-오지원-간사","국제사업실-박예은-간사","국제사업실-백진규-간사","국제사업실-서현영-간사","국제사업실-전예지-팀장","국제사업실-최재원-간사","국제사업실-이서연-간사","국제사업실-박소연-간사","국제사업실-이예은-팀장","국제사업실-김민서-간사","국제사업실-박훈-간사","국제사업실-전혜진-간사","국제사업실-김유진(해외)-간사","국제사업실-정문수-지부장","국제사업실-김태경-간사","국제사업실-김하라-PM","국제사업실-이혜민-PM","국제사업실-정옥선-사무장","국제사업실-안형구-지부장","국제사업실-김진영-PM","국제사업실-박소미-PM","국제사업실-경제현-대리","국제사업실-백창희-PM","국제사업실-배은선-지부장","국제사업실-정혜수-PM","국제사업실-이지훈-간사","국제사업실-이규원-간사","국제사업실-이요섭-PM",
+  "굿윌부문-한상욱-굿윌부문장","굿윌부문-홍세원-소장","굿윌부문-배국환-부장","굿윌부문-박명호-감사실장","굿윌부문-이준형-팀장","굿윌부문-한지은-간사","굿윌부문-최민선-간사","굿윌부문-한정섭-매니저","굿윌부문-최정아-디자인실장","굿윌부문-한신근-매니저","굿윌부문-유의성-대리","굿윌부문-김영덕-팀장","굿윌부문-최시온-간사","굿윌부문-김한솔(B)-간사","굿윌부문-황서영-간사","굿윌부문-조진석-팀장","굿윌부문-채민혜-간사","굿윌부문-김예찬-간사","굿윌부문-원연호-대리","굿윌부문-노태수-간사","굿윌부문-김영갑-센터장","굿윌부문-김정환-대리","굿윌부문-나용수-과장","굿윌부문-황인관-간사",
+  "사업관리본부-김민성-간사","경영관리본부-이한나-간사"
+];
+
+const TMPLS = [
+  {id:1,emoji:"🤝",text:"바쁠 때 먼저 손 내밀고 도와주셔서 감사해요."},
+  {id:2,emoji:"☀️",text:"밝은 인사와 긍정적인 에너지로 힘이 되어주셔서 감사해요."},
+  {id:3,emoji:"💪",text:"기꺼이 고민을 들어주고 든든한 의지가 되어주셔서 감사해요."},
+  {id:4,emoji:"🌸",text:"늘 친절하고 따뜻한 태도로 배려해 주셔서 감사해요."},
+  {id:5,emoji:"🔍",text:"작은 부분까지 놓치지 않고 세심하게 챙겨주셔서 감사해요."},
+  {id:6,emoji:"🏡",text:"묵묵히 제 몫을 다하며 든든하게 자리를 지켜주셔서 감사해요."},
+  {id:7,emoji:"💚",text:"언제나 변함없이 함께해 주셔서 큰 위로와 힘이 돼요."}
+];
+
+const LOAD_STEPS = [
+  {icon:"🔍",label:"직원 정보 확인 중"},
+  {icon:"🌡️",label:"마음의 온도 불러오는 중"},
+  {icon:"💌",label:"쪽지함 열어보는 중"},
+  {icon:"✅",label:"거의 다 됐어요"}
+];
+
+/* ──────────────── 초성 검색 유틸 ──────────────── */
+const CHOSUNG_LIST = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const getChosung = (str) => {
+  let out = '';
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    if (code >= 0xAC00 && code <= 0xD7A3) {
+      const offset = code - 0xAC00;
+      const choIdx = Math.floor(offset / (21 * 28));
+      out += CHOSUNG_LIST[choIdx];
+    } else if ((code >= 0x3131 && code <= 0x314E) || (code >= 0xFF00 && code <= 0xFFEF)) {
+      out += str.charAt(i);
+    } else {
+      out += str.charAt(i).toLowerCase();
+    }
+  }
+  return out;
+};
+const isOnlyChosung = (q) => /^[ㄱ-ㅎ\s]+$/.test(q) && q.trim().length > 0;
+const matchStaff = (staff, rawQuery) => {
+  const q = rawQuery.trim();
+  if (!q) return true;
+  const lower = staff.toLowerCase();
+  if (lower.includes(q.toLowerCase())) return true;
+  if (isOnlyChosung(q)) {
+    const staffCho = getChosung(staff);
+    const qCho = q.replace(/\s/g,'');
+    if (staffCho.replace(/\s/g,'').includes(qCho)) return true;
+  }
+  return false;
+};
+/* ────────────────────────────────────────────── */
+
+const parseS = s=>{const [d,n,r]=s.split("-");return{full:s,dept:d,name:n,role:r};};
+const groupByDept = list=>{
+  const g={};
+  list.forEach(s=>{const p=parseS(s);if(!g[p.dept])g[p.dept]=[];g[p.dept].push({...p,_key:s});});
+  return g;
+};
+const rewardInfo = t=>{
+  if(t>=100)return{text:"1시간 연차 달성!",icon:"🌴",done:true};
+  if(t>=70) return{text:"커피 쿠폰 달성!",icon:"☕",done:true};
+  if(t<70)  return{text:`커피까지 ${(70-t).toFixed(1)}°C`,icon:"☕",done:false};
+  return{text:`연차까지 ${(100-t).toFixed(1)}°C`,icon:"🌴",done:false};
+};
+const isPreview=()=>{try{return window.self!==window.top;}catch(e){return true;}};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+let _pf=null;
+const getPrefetch=()=>{
+  if(!_pf)_pf=apiCall({action:"getAllStatuses"}).then(r=>(r.ok&&r.statuses)?r.statuses:{}).catch(()=>({}));
+  return _pf;
+};
+
+async function apiCall(p){
+  if(!SHEET_URL||isPreview())return demo(p);
+  try{
+    const r=await fetch(SHEET_URL,{method:"POST",mode:"cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});
+    return await r.json();
+  }catch(e){console.warn("API→demo:",e.message);return demo(p);}
+}
+
+function demo(p){
+  const s=JSON.parse(localStorage.getItem("gu")||"{}");
+  if(!s.u)s.u={};if(!s.m)s.m=[];if(!s.t)s.t={};if(!s.l)s.l={};
+  const save=()=>localStorage.setItem("gu",JSON.stringify(s));
+  const kst=()=>{const n=new Date();return new Date(n.getTime()+9*3600000-n.getTimezoneOffset()*60000).toISOString().slice(0,10);};
+  if(p.action==="getAllStatuses"){const st={};STAFF.forEach(n=>{st[n]=!!(s.u[n]?.pw);});return{ok:true,statuses:st};}
+  if(p.action==="checkUser")return{ok:true,isNew:!s.u[p.name]?.pw};
+  if(p.action==="setPassword"){s.u[p.name]={pw:p.password};save();return{ok:true};}
+  if(p.action==="login"){if(!s.u[p.name]?.pw||s.u[p.name].pw!==p.password)return{ok:false,error:"비밀번호가 맞지 않아요"};return{ok:true};}
+  if(p.action==="getDashboard"){
+    const today=kst(),cnt=(s.l[p.name]||[]).filter(d=>d===today).length;
+    return{ok:true,temperature:s.t[p.name]||36.5,remaining:Math.max(0,3-cnt),inbox:s.m.filter(m=>m.to===p.name).sort((a,b)=>b.ts-a.ts)};
+  }
+  if(p.action==="sendThanks"){
+    const today=kst(),cnt=(s.l[p.from]||[]).filter(d=>d===today).length;
+    if(cnt>=3)return{ok:false,error:"오늘 보낼 수 있는 쪽지를 모두 사용했어요"};
+    s.m.push({from:p.from,to:p.to,templates:p.templates,message:p.message,ts:Date.now()});
+    s.t[p.from]=(s.t[p.from]||36.5)+1;s.t[p.to]=(s.t[p.to]||36.5)+1;
+    if(!s.l[p.from])s.l[p.from]=[];s.l[p.from].push(today);save();
+    return{ok:true,remaining:3-(cnt+1),myTemp:s.t[p.from]};
+  }
+  return{ok:false,error:"알 수 없는 요청"};
+}
+
+function fireConfetti(){
+  const cols=["#6EE7B7","#10B981","#047857","#D1FAE5","#34D399","#ECFDF5","#fff"];
+  const emos=["💚","🌱","✨","🌿"];
+  for(let i=0;i<55;i++){
+    const e=document.createElement("div");e.className="cbit";
+    e.style.left=Math.random()*100+"vw";e.style.background=cols[Math.floor(Math.random()*cols.length)];
+    e.style.animationDuration=(1.8+Math.random()*1.4)+"s";e.style.animationDelay=Math.random()*0.35+"s";
+    e.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(e);setTimeout(()=>e.remove(),3500);
+  }
+  for(let i=0;i<8;i++){
+    const e=document.createElement("div");e.className="cbit";
+    e.style.cssText+=";background:transparent;width:auto;height:auto;font-size:18px;";
+    e.textContent=emos[Math.floor(Math.random()*emos.length)];
+    e.style.left=Math.random()*100+"vw";e.style.animationDuration=(2.2+Math.random()*1.2)+"s";e.style.animationDelay=Math.random()*0.4+"s";
+    document.body.appendChild(e);setTimeout(()=>e.remove(),4000);
+  }
+}
+
+/* ─────── Footer 컴포넌트 ─────── */
+function AppFooter(){
+  return (
+    <p className="text-center pt-6 pb-5 text-[11px] font-semibold tracking-wide" style={{color:"#CBD5E1"}}>
+      밀알복지재단 교육문화팀
+    </p>
+  );
+}
+
+function Thermometer({temp}){
+  const TX=60,BOT=208,TOP=22,H=BOT-TOP,BCY=236,BRO=24,BRI=18;
+  const MH=H+(BCY+BRI+6-BOT);
+  const ratio=Math.max(0,Math.min(1,(temp-36.5)/(100-36.5)));
+  const tY=-ratio*H;
+  const coffeeY=BOT-((70-36.5)/(100-36.5))*H;
+  return(
+    <svg viewBox="0 0 155 275" style={{height:"220px",overflow:"visible"}} aria-label={`온도 ${temp.toFixed(1)}도`}>
+      <defs>
+        <clipPath id="mc"><rect x="52" y={TOP} width="16" height={BOT-TOP+4} rx="8"/><circle cx={TX} cy={BCY} r={BRI}/></clipPath>
+        <linearGradient id="mg" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stopColor="#064E3B"/><stop offset="45%" stopColor="#059669"/><stop offset="100%" stopColor="#34D399"/>
+        </linearGradient>
+        <linearGradient id="tube" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#F1F5F9"/><stop offset="100%" stopColor="#E2E8F0"/>
+        </linearGradient>
+      </defs>
+      <rect x="47" y="14" width="26" height={BOT-14+4} rx="13" fill="url(#tube)" stroke="rgba(15,23,42,0.06)" strokeWidth="1"/>
+      <circle cx={TX} cy={BCY} r={BRO} fill="url(#tube)" stroke="rgba(15,23,42,0.06)" strokeWidth="1"/>
+      <g clipPath="url(#mc)">
+        <rect x="45" y={BOT} width="30" height={MH} fill="url(#mg)"
+              style={{transform:`translateY(${tY}px)`,transition:"transform 1.2s cubic-bezier(.34,1.56,.64,1)"}}/>
+      </g>
+      <rect x="51" y="16" width="5" height={BOT-16+4} rx="2.5" fill="rgba(255,255,255,0.55)"/>
+      <ellipse cx={TX-9} cy={BCY-8} rx="4" ry="6" fill="rgba(255,255,255,0.38)"/>
+      {[50,60,80,90].map(t=>(<line key={t} x1="74" y1={BOT-((t-36.5)/(100-36.5))*H} x2="77" y2={BOT-((t-36.5)/(100-36.5))*H} stroke="#CBD5E1" strokeWidth="1"/>))}
+      <line x1="74" y1={coffeeY} x2="83" y2={coffeeY} stroke="#059669" strokeWidth="1.8"/>
+      <text x="86" y={coffeeY+4} fontSize="8.5" fontWeight="800" fill="#047857">70°C</text>
+      <text x="109" y={coffeeY+5} fontSize="11">☕</text>
+      <line x1="74" y1={TOP} x2="83" y2={TOP} stroke="#059669" strokeWidth="1.8"/>
+      <text x="86" y={TOP+4} fontSize="8.5" fontWeight="800" fill="#047857">100°C</text>
+      <text x="111" y={TOP+5} fontSize="11">🌴</text>
+    </svg>
+  );
+}
+
+function LoadingScreen({visible}){
+  const [step,setStep]=useState(0);
+  const [pct,setPct]=useState(0);
+  useEffect(()=>{
+    if(!visible){setStep(0);setPct(0);return;}
+    const t=setInterval(()=>{
+      setStep(s=>{const next=Math.min(s+1,LOAD_STEPS.length-1);setPct(Math.round((next+1)/LOAD_STEPS.length*100));return next;});
+    },350);
+    return()=>clearInterval(t);
+  },[visible]);
+  if(!visible)return null;
+  return(
+    <div className="fixed inset-0 z-[90] flex items-center justify-center fadeIn glass-light">
+      <div className="text-center px-6 w-full max-w-[300px]">
+        <div className="text-5xl mb-6 sprout">🌱</div>
+        <div className="mb-5 space-y-1.5 text-left">
+          {LOAD_STEPS.map((s,i)=>{
+            const done=i<step,active=i===step;
+            return(
+              <div key={i} className="flex items-center gap-3 px-3.5 py-2.5 rounded-2xl transition-all duration-300"
+                   style={{background:done||active?'rgba(16,185,129,0.07)':'transparent',opacity:i>step?0.25:1,transform:active?'scale(1.02)':'scale(1)'}}>
+                <span className="w-5 text-center text-base flex-shrink-0">{done?"✅":s.icon}</span>
+                <span className={`text-sm flex-1 track-tight ${active?"font-extrabold text-emerald-700":"font-medium text-slate-500"}`}>{s.label}</span>
+                {active&&<div className="sp sp-g flex-shrink-0" style={{width:16,height:16,borderWidth:2}}/>}
+              </div>
+            );
+          })}
+        </div>
+        <div className="h-1.5 rounded-full overflow-hidden mb-1.5" style={{background:"#E2E8F0"}}>
+          <div className="h-full rounded-full" style={{width:`${pct}%`,background:"linear-gradient(90deg,#10B981,#059669)",transition:"width 0.35s ease"}}/>
+        </div>
+        <p className="text-[10px] font-extrabold text-emerald-600 tabular tracking-widest">{pct}%</p>
+      </div>
+    </div>
+  );
+}
+
+function PinInput({value,onChange,onEnter}){
+  return(
+    <input type="text" inputMode="numeric" autoComplete="off" maxLength={4}
+      value={value}
+      onChange={e=>onChange(e.target.value.replace(/\D/g,"").slice(0,4))}
+      onKeyDown={e=>e.key==="Enter"&&onEnter&&onEnter()}
+      placeholder="비밀번호 4자리 입력"
+      style={{caretColor:"#10B981"}}
+      className="pin-input ipt w-full px-4 py-3.5 text-slate-900 text-left text-xl font-extrabold tracking-[0.3em]"/>
+  );
+}
+
+function PersonItem({person,onSelect}){
+  return(
+    <button onMouseDown={e=>e.preventDefault()} onClick={()=>onSelect(person._key)}
+      className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-emerald-50/60 border-b border-slate-50 last:border-0 transition-colors duration-150">
+      <div className="w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-xs flex-shrink-0"
+           style={{background:"linear-gradient(135deg,#ECFDF5,#D1FAE5)",color:"#047857"}}>
+        {person.name.charAt(0)}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-bold text-slate-800 truncate track-tight">
+          {person.name} <span className="text-xs font-medium text-slate-400">{person.role}</span>
+        </div>
+        <div className="text-[11px] text-slate-400 truncate font-medium">{person.dept}</div>
+      </div>
+    </button>
+  );
+}
+
+function LoginScreen({onLogin}){
+  const [step,setStep]=useState("select");
+  const [search,setSearch]=useState("");
+  const [sel,setSel]=useState("");
+  const [pw,setPw]=useState("");
+  const [pw2,setPw2]=useState("");
+  const [err,setErr]=useState("");
+  const [loading,setLoading]=useState(false);
+  const [open,setOpen]=useState(false);
+
+  useEffect(()=>{getPrefetch();},[]);
+
+  const filtered=useMemo(()=>{
+    const q=search.trim();
+    return q?STAFF.filter(s=>matchStaff(s,q)):STAFF;
+  },[search]);
+  const grouped=useMemo(()=>groupByDept(filtered),[filtered]);
+
+  const handleSelect=async(name)=>{
+    if(loading)return;
+    setSel(name);setOpen(false);setSearch(parseS(name).name);setErr("");
+    const map=await getPrefetch();
+    if(name in map){setStep(map[name]?"pw-exist":"pw-new");}
+    else{
+      setLoading(true);
+      const r=await apiCall({action:"checkUser",name});
+      setLoading(false);
+      if(!r.ok){setErr(r.error||"오류가 발생했어요");return;}
+      setStep(r.isNew?"pw-new":"pw-exist");
+    }
+    setPw("");setPw2("");
+  };
+
+  const doSetPw=async()=>{
+    setErr("");
+    if(!/^\d{4}$/.test(pw)){setErr("숫자 4자리를 설정해주세요");return;}
+    if(pw!==pw2){setErr("두 비밀번호가 일치하지 않아요");return;}
+    setLoading(true);
+    const r=await apiCall({action:"setPassword",name:sel,password:pw});
+    setLoading(false);
+    if(!r.ok){setErr(r.error||"설정 실패");return;}
+    onLogin(sel);
+  };
+
+  const doLogin=async()=>{
+    setErr("");
+    if(!pw){setErr("비밀번호를 입력해주세요");return;}
+    setLoading(true);
+    const r=await apiCall({action:"login",name:sel,password:pw});
+    setLoading(false);
+    if(!r.ok){setErr(r.error||"로그인 실패");return;}
+    onLogin(sel);
+  };
+
+  const reset=()=>{setStep("select");setPw("");setPw2("");setErr("");setSel("");setSearch("");};
+  const sp=sel?parseS(sel):null;
+
+  return(
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-7 slideUp" style={{position:"relative"}}>
+          <span style={{position:"absolute",left:"8px",top:"8px",fontSize:"22px",opacity:0.5,animation:"floatA 4s 0.2s ease-in-out infinite"}}>🌿</span>
+          <span style={{position:"absolute",right:"10px",top:"4px",fontSize:"18px",opacity:0.55,animation:"floatB 3.5s ease-in-out infinite"}}>✨</span>
+          <span style={{position:"absolute",left:"18px",bottom:"8px",fontSize:"16px",opacity:0.42,animation:"floatB 4.5s 0.5s ease-in-out infinite"}}>💚</span>
+          <span style={{position:"absolute",right:"18px",bottom:"6px",fontSize:"16px",opacity:0.42,animation:"floatA 5s 0.8s ease-in-out infinite"}}>🌸</span>
+
+          <div style={{position:"relative",display:"inline-block",marginBottom:"10px"}}>
+            <div style={{
+              position:"absolute",inset:"-20px",borderRadius:"50%",
+              background:"radial-gradient(circle,rgba(52,211,153,0.32),transparent 70%)",
+              filter:"blur(14px)"
+            }}/>
+            <span className="wiggle" style={{fontSize:"68px",display:"block",position:"relative",filter:"drop-shadow(0 6px 12px rgba(6,95,70,0.2))"}}>🌱</span>
+          </div>
+
+          <h1 className="logo-font" style={{
+            fontSize:"56px",lineHeight:1,marginBottom:"12px",
+            background:"linear-gradient(135deg,#064E3B 0%,#047857 40%,#10B981 100%)",
+            WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",
+            filter:"drop-shadow(0 2px 10px rgba(16,185,129,0.18))"
+          }}>
+            감사해U
+          </h1>
+
+          <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:"10px",marginBottom:"8px"}}>
+            <div style={{width:"32px",height:"1px",background:"linear-gradient(90deg,transparent,#A7F3D0)"}}/>
+            <span style={{fontSize:"10px",color:"#94A3B8",fontWeight:800,letterSpacing:"0.14em",textTransform:"uppercase"}}>밀알복지재단</span>
+            <div style={{width:"32px",height:"1px",background:"linear-gradient(90deg,#A7F3D0,transparent)"}}/>
+          </div>
+          <p style={{fontSize:"12px",fontWeight:800,color:"#047857",letterSpacing:"0.06em"}}>따뜻한 밀알인 되기 프로젝트</p>
+        </div>
+
+        <div className="card p-7 slideUp relative" style={{animationDelay:"0.08s"}}>
+
+          {loading&&step==="select"&&(
+            <div className="absolute inset-0 rounded-[24px] flex items-center justify-center z-20 glass">
+              <div className="sp sp-g" style={{width:36,height:36,borderWidth:3}}/>
+            </div>
+          )}
+
+          {step==="select"&&(
+            <>
+              <p className="text-lg font-extrabold text-slate-900 text-center mb-1 track-tighter">안녕하세요</p>
+              <p className="text-sm text-slate-500 text-center mb-6 font-medium">오늘의 감사를 남겨볼까요?</p>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 tracking-widest uppercase">본인 이름 선택</label>
+              <div className="relative">
+                <input type="text" value={search}
+                  onChange={e=>{setSearch(e.target.value);setOpen(true);}}
+                  onFocus={()=>setOpen(true)}
+                  placeholder="이름·부서·초성(ㄱㅈㅇ) 검색"
+                  className="ipt w-full px-4 py-3.5 text-slate-800 placeholder-slate-300 font-semibold text-sm track-tight"/>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+                {open&&(
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl max-h-80 overflow-y-auto z-20 popIn"
+                       style={{border:"1px solid rgba(15,23,42,0.06)",boxShadow:"0 1px 2px rgba(15,23,42,0.04),0 20px 48px rgba(15,23,42,0.1)"}}>
+                    {filtered.length===0
+                      ?<div className="p-5 text-sm text-center text-slate-400 font-medium">검색 결과가 없어요</div>
+                      :Object.entries(grouped).map(([dept,members])=>(
+                        <div key={dept}>
+                          <div className="dept-h">{dept}</div>
+                          {members.map(m=><PersonItem key={m._key} person={m} onSelect={handleSelect}/>)}
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+              {err&&<p className="mt-3 text-xs text-rose-500 font-semibold text-center">{err}</p>}
+            </>
+          )}
+
+          {step==="pw-new"&&(
+            <div className="popIn">
+              <button onClick={reset} className="text-xs font-bold text-emerald-700 hover:text-emerald-900 mb-5 btn track-tight">← 이름 다시 선택</button>
+              <div className="rounded-2xl p-4 mb-5 text-center"
+                   style={{background:"linear-gradient(180deg,#ECFDF5,#F0FDF4)",border:"1px solid rgba(16,185,129,0.15)"}}>
+                <p className="font-extrabold text-emerald-900 text-sm track-tight">처음 오셨군요! 환영해요 🌱</p>
+                <p className="text-xs text-emerald-700 mt-1 font-medium">앞으로 사용할 비밀번호 4자리를 설정해주세요</p>
+              </div>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 tracking-widest uppercase">비밀번호 (숫자 4자리)</label>
+              <PinInput value={pw} onChange={setPw}/>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 mt-4 tracking-widest uppercase">비밀번호 확인</label>
+              <PinInput value={pw2} onChange={setPw2} onEnter={doSetPw}/>
+              {err&&<p className="mt-3 text-xs text-rose-500 font-semibold text-center">{err}</p>}
+              <button onClick={doSetPw} disabled={loading}
+                className="w-full mt-6 py-4 rounded-2xl btn btn-g text-sm disabled:opacity-60 flex items-center justify-center gap-2 track-tight">
+                {loading&&<div className="sp"/>}
+                {loading?"설정 중...":"시작하기"}
+              </button>
+            </div>
+          )}
+
+          {step==="pw-exist"&&sp&&(
+            <div className="popIn">
+              <button onClick={reset} className="text-xs font-bold text-emerald-700 hover:text-emerald-900 mb-5 btn track-tight">← 이름 다시 선택</button>
+              <div className="flex items-center gap-3 rounded-2xl p-4 mb-5"
+                   style={{background:"#F8FAFC",border:"1px solid var(--line-soft)"}}>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center font-extrabold text-lg flex-shrink-0"
+                     style={{background:"linear-gradient(135deg,#ECFDF5,#D1FAE5)",color:"#047857"}}>{sp.name.charAt(0)}</div>
+                <div className="min-w-0">
+                  <div className="font-extrabold text-slate-900 text-sm truncate track-tight">{sp.name} <span className="text-xs font-medium text-slate-400">{sp.role}</span></div>
+                  <div className="text-xs text-slate-400 truncate font-medium">{sp.dept}</div>
+                </div>
+              </div>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 tracking-widest uppercase">비밀번호 입력</label>
+              <PinInput value={pw} onChange={setPw} onEnter={doLogin}/>
+              {err&&<p className="mt-3 text-xs text-rose-500 font-semibold text-center">{err}</p>}
+              <button onClick={doLogin} disabled={loading}
+                className="w-full mt-6 py-4 rounded-2xl btn btn-g text-sm disabled:opacity-60 flex items-center justify-center gap-2 track-tight">
+                {loading&&<div className="sp"/>}
+                {loading?"확인 중...":"로그인"}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* 비밀번호 CS 안내 */}
+        <p className="text-center mt-5 text-[11px] leading-relaxed font-medium" style={{color:"#CBD5E1"}}>
+          비밀번호를 잊으셨다면<br/>
+          <span style={{color:"#94A3B8"}}>교육문화팀(3660)</span>으로 문의해 주세요
+        </p>
+
+        <AppFooter/>
+      </div>
+    </div>
+  );
+}
+
+function Dashboard({me,onLogout}){
+  const [loading,setLoading]=useState(true);
+  const [temp,setTemp]=useState(36.5);
+  const [rem,setRem]=useState(3);
+  const [inbox,setInbox]=useState([]);
+  const [compose,setCompose]=useState(false);
+  const [ibOpen,setIbOpen]=useState(false);
+
+  const load=useCallback(async()=>{
+    setLoading(true);
+    const r=await apiCall({action:"getDashboard",name:me});
+    if(r.ok){setTemp(r.temperature);setRem(r.remaining);setInbox(r.inbox||[]);}
+    setLoading(false);
+  },[me]);
+
+  useEffect(()=>{load();},[load]);
+
+  const onSent=(nt,nr)=>{setCompose(false);setTimeout(()=>{setTemp(nt);setRem(nr);},320);};
+
+  const pm=parseS(me);
+  const ri=rewardInfo(temp);
+
+  return(
+    <>
+      <LoadingScreen visible={loading}/>
+      <div className="min-h-screen px-4 pt-5 pb-6">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center justify-between mb-5 slideUp">
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl wiggle" style={{filter:"drop-shadow(0 2px 6px rgba(6,95,70,0.2))"}}>🌱</span>
+              <div>
+                <h1 className="logo-font text-[24px] leading-none track-tighter" style={{background:"linear-gradient(135deg,#064E3B,#10B981)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>감사해U</h1>
+                <p className="text-[10px] font-extrabold text-slate-400 tracking-widest mt-0.5">밀알복지재단</p>
+              </div>
+            </div>
+            <button onClick={onLogout} className="text-xs font-bold text-slate-600 px-3.5 py-2 rounded-full bg-white btn hover:bg-slate-50 track-tight"
+                    style={{border:"1px solid var(--line)",boxShadow:"0 1px 2px rgba(15,23,42,0.03)"}}>로그아웃</button>
+          </div>
+
+          <div className="card p-4 mb-3 slideUp flex items-center gap-3" style={{animationDelay:"0.06s"}}>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center font-extrabold text-lg flex-shrink-0"
+                 style={{background:"linear-gradient(135deg,#ECFDF5,#D1FAE5)",color:"#047857"}}>{pm.name.charAt(0)}</div>
+            <div className="min-w-0 flex-1">
+              <p className="font-extrabold text-slate-900 text-sm track-tight leading-snug">
+                <span style={{background:"linear-gradient(135deg,#059669,#10B981)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{pm.name}</span> {pm.role}님, 안녕하세요
+              </p>
+              <p className="text-xs text-slate-400 mt-1 font-medium">{pm.dept} · 오늘도 따뜻한 하루 되세요 💚</p>
+            </div>
+          </div>
+
+          <div className="card-hero p-7 mb-3 slideUp" style={{animationDelay:"0.11s"}}>
+            <p className="text-[11px] font-extrabold text-slate-400 tracking-[0.2em] uppercase text-center mb-3">나의 마음의 온도</p>
+            <div className="text-center mb-1">
+              <span className="fw900 tabular" style={{fontSize:"68px",lineHeight:1,background:"linear-gradient(160deg,#064E3B,#047857,#10B981)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:"-0.05em"}}>{temp.toFixed(1)}</span>
+              <span className="text-2xl fw800 text-emerald-600 ml-0.5">°C</span>
+            </div>
+            <div className="flex justify-center"><Thermometer temp={temp}/></div>
+            <div className="text-center mt-3">
+              <div className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-extrabold track-tight ${ri.done?"text-white":"chip-g"}`}
+                   style={ri.done?{background:"linear-gradient(135deg,#047857,#10B981)",boxShadow:"0 4px 14px rgba(16,185,129,0.32),inset 0 1px 0 rgba(255,255,255,0.18)"}:{}}>
+                <span>{ri.icon}</span><span>{ri.text}</span>
+              </div>
+            </div>
+            <div className="mt-5 grid grid-cols-2 gap-2.5">
+              {[{t:70,icon:"☕",label:"커피 쿠폰"},{t:100,icon:"🌴",label:"1시간 연차"}].map(({t,icon,label})=>{
+                const done=temp>=t;
+                return(
+                  <div key={t} className={`rounded-2xl p-3 text-center transition-all duration-300 ${done?"text-white":"text-slate-600"}`}
+                       style={done
+                         ?{background:"linear-gradient(135deg,#047857,#10B981)",boxShadow:"0 4px 14px rgba(16,185,129,0.25),inset 0 1px 0 rgba(255,255,255,0.15)"}
+                         :{background:"#F8FAFC",border:"1px solid var(--line-soft)"}}>
+                    <div className="text-xl mb-0.5">{done?"✅":icon}</div>
+                    <div className="text-[11px] font-extrabold track-tight">{t}°C · {label}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ▼ Supported by — 커피/연차 박스 바로 아래 배치 */}
+            <p className="text-center mt-5 text-[10px] font-semibold tracking-[0.08em]" style={{color:"#CBD5E1"}}>
+              Supported by <span style={{color:"#94A3B8"}}>밀알디아코니아연구소</span>
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 mb-3 slideUp" style={{animationDelay:"0.17s"}}>
+            <button onClick={()=>rem>0&&setCompose(true)} disabled={rem===0}
+              className={`py-5 rounded-[22px] text-white font-extrabold btn track-tight ${rem>0?"btn-g":""}`}
+              style={rem===0?{background:"#E2E8F0",color:"#94A3B8",cursor:"not-allowed",boxShadow:"none"}:{}}>
+              <div className="text-3xl mb-1 bounceY">✍️</div>
+              <div className="text-sm">쪽지 쓰기</div>
+              <div className="text-[11px] mt-1.5 rounded-full px-2.5 py-0.5 inline-block font-bold"
+                   style={{background:"rgba(0,0,0,0.12)"}}>남은 기회 {rem}회</div>
+            </button>
+            <button onClick={()=>setIbOpen(true)} className="py-5 rounded-[22px] text-white font-extrabold btn relative track-tight btn-g">
+              <div className="text-3xl mb-1 bounceY" style={{animationDelay:"0.3s"}}>💌</div>
+              <div className="text-sm">쪽지함</div>
+              <div className="text-[11px] mt-1.5 rounded-full px-2.5 py-0.5 inline-block font-bold"
+                   style={{background:"rgba(0,0,0,0.12)"}}>{inbox.length}개 도착</div>
+              {inbox.length>0&&(
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-white text-emerald-700 font-extrabold text-xs flex items-center justify-center countPop"
+                     style={{boxShadow:"0 2px 6px rgba(6,95,70,0.25)"}}>{inbox.length}</div>
+              )}
+            </button>
+          </div>
+
+          <div className="card p-3.5 text-center slideUp" style={{animationDelay:"0.22s"}}>
+            <p className="text-xs font-semibold text-slate-500 track-tight leading-relaxed">
+              쪽지를 보낼 때마다 서로의 온도가 <strong className="text-emerald-700 font-extrabold">1°C씩</strong> 올라가요 🌱
+            </p>
+          </div>
+
+          <AppFooter/>
+        </div>
+      </div>
+      {compose&&<ComposeModal me={me} remaining={rem} currentTemp={temp} onClose={()=>setCompose(false)} onSent={onSent}/>}
+      {ibOpen&&<InboxModal inbox={inbox} onClose={()=>setIbOpen(false)}/>}
+    </>
+  );
+}
+
+function ComposeModal({me,remaining,currentTemp,onClose,onSent}){
+  const [rec,setRec]=useState("");
+  const [sel,setSel]=useState([]);
+  const [msg,setMsg]=useState("");
+  const [err,setErr]=useState("");
+  const [sending,setSending]=useState(false);
+  const [success,setSuccess]=useState(null);
+  const [rOpen,setROpen]=useState(false);
+  const [rSearch,setRSearch]=useState("");
+
+  useEffect(()=>{document.body.classList.add("modal-open");return()=>document.body.classList.remove("modal-open");},[]);
+
+  const toggle=id=>setSel(s=>s.includes(id)?s.filter(x=>x!==id):[...s,id]);
+  const receivers=useMemo(()=>STAFF.filter(s=>s!==me),[me]);
+  const filtered=useMemo(()=>{
+    const q=rSearch.trim();
+    return q?receivers.filter(s=>matchStaff(s,q)):receivers;
+  },[rSearch,receivers]);
+  const grouped=useMemo(()=>groupByDept(filtered),[filtered]);
+
+  const send=async()=>{
+    setErr("");
+    if(!rec){setErr("받는 분을 선택해주세요");return;}
+    if(!sel.length){setErr("감사 템플릿을 하나 이상 선택해주세요");return;}
+    setSending(true);
+    const r=await apiCall({action:"sendThanks",from:me,to:rec,templates:sel,message:msg.trim()});
+    setSending(false);
+    if(!r.ok){setErr(r.error||"전송 실패");return;}
+    fireConfetti();
+    setSuccess({oldTemp:currentTemp,newTemp:r.myTemp});
+    setTimeout(()=>onSent(r.myTemp,r.remaining),3200);
+  };
+
+  const rp=rec?parseS(rec):null;
+
+  return(
+    <div className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center sm:p-4 fadeIn glass-overlay">
+      <div className="glass w-full max-w-md rounded-t-[28px] sm:rounded-[28px] max-h-[92vh] overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between px-5 py-4" style={{borderBottom:"1px solid rgba(15,23,42,0.06)"}}>
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg wiggle">✍️</span>
+            <h2 className="font-extrabold text-slate-900 track-tight">감사 쪽지 쓰기</h2>
+          </div>
+          <button onClick={onClose} className="w-9 h-9 rounded-full hover:bg-slate-100/80 flex items-center justify-center text-slate-400 btn">
+            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto relative" style={{background:"rgba(255,255,255,0.6)"}}>
+          {sending&&(
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 glass-light">
+              <div className="sp sp-g mb-4" style={{width:44,height:44,borderWidth:3.5}}/>
+              <p className="text-base font-extrabold text-slate-800 track-tight">따뜻한 마음을 전송 중이에요</p>
+              <p className="text-xs text-slate-400 mt-1.5 font-medium">조금만 기다려 주세요</p>
+            </div>
+          )}
+          <div className="p-5 space-y-5">
+            <div>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 tracking-widest uppercase">받는 분</label>
+              <div className="relative">
+                <button onClick={()=>setROpen(o=>!o)}
+                  className="ipt w-full px-4 py-3.5 flex items-center justify-between text-sm btn hover:border-emerald-300/60">
+                  {rp?(
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-9 h-9 rounded-full flex items-center justify-center font-extrabold text-xs flex-shrink-0"
+                           style={{background:"linear-gradient(135deg,#ECFDF5,#D1FAE5)",color:"#047857"}}>{rp.name.charAt(0)}</div>
+                      <div className="min-w-0 text-left">
+                        <div className="font-extrabold text-slate-900 truncate text-sm track-tight">{rp.name} <span className="text-slate-400 font-medium text-xs">{rp.role}</span></div>
+                        <div className="text-[10px] text-slate-400 truncate font-medium">{rp.dept}</div>
+                      </div>
+                    </div>
+                  ):<span className="text-slate-300 font-semibold">누구에게 감사를 전할까요?</span>}
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" className="text-slate-400 flex-shrink-0 transition-transform duration-200" style={{transform:rOpen?"rotate(180deg)":"rotate(0deg)"}}>
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </button>
+                {rOpen&&(
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl max-h-80 overflow-y-auto z-10 popIn"
+                       style={{border:"1px solid rgba(15,23,42,0.06)",boxShadow:"0 1px 2px rgba(15,23,42,0.04),0 20px 48px rgba(15,23,42,0.12)"}}>
+                    <input type="text" value={rSearch} onChange={e=>setRSearch(e.target.value)}
+                      placeholder="이름·부서·초성(ㄱㅈㅇ) 검색" autoFocus
+                      className="w-full px-4 py-3 text-sm bg-transparent font-semibold text-slate-700 placeholder-slate-300 track-tight"
+                      style={{borderBottom:"1px solid rgba(15,23,42,0.05)"}}/>
+                    {Object.entries(grouped).map(([dept,members])=>(
+                      <div key={dept}>
+                        <div className="dept-h">{dept}</div>
+                        {members.map(m=><PersonItem key={m._key} person={m} onSelect={k=>{setRec(k);setROpen(false);setRSearch("");}}/>)}
+                      </div>
+                    ))}
+                    {filtered.length===0&&(
+                      <div className="p-5 text-sm text-center text-slate-400 font-medium">검색 결과가 없어요</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 tracking-widest uppercase">
+                감사 템플릿 <span className="normal-case tracking-normal font-semibold text-slate-400">(중복 선택 가능 · {sel.length}개)</span>
+              </label>
+              <div className="space-y-2">
+                {TMPLS.map(t=>{
+                  const s=sel.includes(t.id);
+                  return(
+                    <div key={t.id} onClick={()=>toggle(t.id)} className={`tmpl p-3.5 flex items-start gap-3 ${s?"sel":""}`}>
+                      <span className="text-xl flex-shrink-0 mt-0.5">{t.emoji}</span>
+                      <span className="flex-1 text-sm font-semibold text-slate-700 leading-relaxed track-tight">{t.text}</span>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300`}
+                           style={s?{background:"linear-gradient(135deg,#10B981,#059669)",borderColor:"#059669",boxShadow:"0 2px 6px rgba(16,185,129,0.3)"}:{borderColor:"#CBD5E1",background:"#fff"}}>
+                        {s&&<svg width="11" height="11" fill="none" stroke="white" strokeWidth="3.5" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-extrabold text-slate-600 mb-2 tracking-widest uppercase">
+                마음을 담은 한 마디 <span className="normal-case tracking-normal font-semibold text-slate-400">(선택)</span>
+              </label>
+              <textarea value={msg} onChange={e=>setMsg(e.target.value.slice(0,300))}
+                placeholder="구체적인 감사의 마음을 전해보세요"
+                className="ipt w-full px-4 py-3.5 text-slate-700 placeholder-slate-300 resize-none font-semibold text-sm leading-relaxed track-tight" rows={3}/>
+              <div className="text-right text-[11px] text-slate-300 mt-1 tabular font-semibold">{msg.length}/300</div>
+            </div>
+
+            {err&&<div className="rounded-2xl p-3.5 text-center text-sm text-rose-500 font-semibold" style={{background:"#FEF2F2",border:"1px solid #FECACA"}}>{err}</div>}
+          </div>
+        </div>
+
+        <div className="p-5" style={{borderTop:"1px solid rgba(15,23,42,0.06)",background:"rgba(255,255,255,0.6)"}}>
+          <button onClick={send} disabled={sending} className="w-full py-4 rounded-2xl btn btn-g text-sm disabled:opacity-60 track-tight">
+            {`감사 전하기 · 남은 기회 ${remaining}회`}
+          </button>
+        </div>
+      </div>
+      {success&&<SuccessModal oldTemp={success.oldTemp} newTemp={success.newTemp}/>}
+    </div>
+  );
+}
+
+function SuccessModal({oldTemp,newTemp}){
+  const [disp,setDisp]=useState(oldTemp);
+  useEffect(()=>{
+    let raf,start;
+    const run=()=>{
+      if(!start)start=Date.now();
+      const t=Math.min((Date.now()-start)/1400,1);
+      setDisp(oldTemp+(newTemp-oldTemp)*(1-Math.pow(1-t,3)));
+      if(t<1)raf=requestAnimationFrame(run);
+    };
+    const tid=setTimeout(()=>{raf=requestAnimationFrame(run);},380);
+    return()=>{clearTimeout(tid);raf&&cancelAnimationFrame(raf);};
+  },[oldTemp,newTemp]);
+  const r=Math.max(0,Math.min(1,(disp-36.5)/(100-36.5)));
+  return(
+    <div className="fixed inset-0 z-[95] flex items-center justify-center p-4 fadeIn glass-overlay">
+      <div className="glass rounded-[28px] p-7 w-full max-w-[340px] text-center scaleIn">
+        <div className="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center pulseRing"
+             style={{background:"linear-gradient(135deg,#ECFDF5,#D1FAE5)"}}>
+          <svg width="28" height="28" fill="none" stroke="#047857" strokeWidth="3.2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h2 className="logo-font text-xl text-slate-900 mb-4 track-tighter">감사한 마음을 전했어요</h2>
+        <div className="rounded-2xl p-5 mb-4"
+             style={{background:"linear-gradient(180deg,#ECFDF5,#F0FDF4)",border:"1px solid rgba(16,185,129,0.18)"}}>
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <div className="relative flex-shrink-0" style={{width:"26px",height:"68px"}}>
+              <div className="absolute inset-x-0 top-0 bottom-3 bg-white rounded-full" style={{border:"1px solid rgba(16,185,129,0.25)"}}/>
+              <div className="absolute inset-x-1 bottom-3 rounded-full" style={{height:`${r*48+4}px`,background:"linear-gradient(to top,#064E3B,#059669,#34D399)",transition:"none"}}/>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full" style={{background:"linear-gradient(135deg,#047857,#10B981)",boxShadow:"0 2px 6px rgba(6,95,70,0.3)",border:"1px solid rgba(16,185,129,0.5)"}}/>
+            </div>
+            <div className="text-left">
+              <div className="flex items-baseline gap-0.5">
+                <span className="fw900 tabular" style={{fontSize:"44px",lineHeight:1,background:"linear-gradient(160deg,#064E3B,#059669)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:"-0.04em"}}>{disp.toFixed(1)}</span>
+                <span className="text-xl fw800 text-emerald-600">°C</span>
+              </div>
+              <div className="text-[11px] text-slate-400 tabular mt-0.5 font-semibold">이전 {oldTemp.toFixed(1)}°C</div>
+            </div>
+          </div>
+          <div className="inline-flex items-center gap-1.5 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full track-tight"
+               style={{background:"linear-gradient(135deg,#047857,#10B981)",boxShadow:"0 3px 10px rgba(16,185,129,0.3)",animation:"badgeIn .5s cubic-bezier(.34,1.56,.64,1) .9s both"}}>
+            <span style={{animation:"arrowUp 1.2s ease-in-out infinite"}}>▲</span>
+            <span className="tabular">+1.0°C 따뜻해졌어요</span>
+          </div>
+        </div>
+        <div style={{animation:"msgIn .5s ease-out 1.1s both"}}>
+          <p className="text-sm font-semibold text-slate-600 leading-relaxed track-tight">당신의 소중한 감사 덕에<br/>상대의 마음의 온도도 1도 올라갔습니다 💚</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InboxModal({inbox,onClose}){
+  useEffect(()=>{document.body.classList.add("modal-open");return()=>document.body.classList.remove("modal-open");},[]);
+  return(
+    <div className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center sm:p-4 fadeIn glass-overlay">
+      <div className="glass w-full max-w-md rounded-t-[28px] sm:rounded-[28px] max-h-[92vh] overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between px-5 py-4" style={{borderBottom:"1px solid rgba(15,23,42,0.06)"}}>
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg wiggle">💌</span>
+            <h2 className="font-extrabold text-slate-900 track-tight">받은 쪽지함</h2>
+            <span className="font-extrabold text-xs rounded-full px-2.5 py-0.5 tabular chip-g">{inbox.length}</span>
+          </div>
+          <button onClick={onClose} className="w-9 h-9 rounded-full hover:bg-slate-100/80 flex items-center justify-center text-slate-400 btn">
+            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-5 space-y-3" style={{background:"rgba(255,255,255,0.6)"}}>
+          {inbox.length===0?(
+            <div className="py-14 text-center">
+              <div className="text-5xl mb-3 bounceY">📭</div>
+              <p className="font-extrabold text-slate-700 track-tight">아직 받은 쪽지가 없어요</p>
+              <p className="text-xs text-slate-400 mt-1.5 font-medium">먼저 감사를 전해보는 건 어떨까요?</p>
+            </div>
+          ):inbox.map((m,i)=>{
+            const s=parseS(m.from);
+            const ts=(m.templates||[]).map(id=>TMPLS.find(t=>t.id===id)).filter(Boolean);
+            const d=new Date(m.ts);
+            const ds=`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+            return(
+              <div key={i} className="rounded-2xl p-4 popIn"
+                   style={{background:"#fff",border:"1px solid var(--line-soft)",boxShadow:"0 1px 2px rgba(15,23,42,0.03),0 4px 14px rgba(15,23,42,0.03)",animationDelay:`${i*.04}s`}}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-extrabold flex-shrink-0"
+                       style={{background:"linear-gradient(135deg,#ECFDF5,#D1FAE5)",color:"#047857"}}>{s.name.charAt(0)}</div>
+                  <div className="min-w-0">
+                    <div className="font-extrabold text-slate-900 text-sm truncate track-tight">{s.name} <span className="text-xs font-medium text-slate-400">{s.role}</span></div>
+                    <div className="text-[11px] text-slate-400 tabular truncate font-medium">{s.dept} · {ds}</div>
+                  </div>
+                </div>
+                <div className="space-y-1.5 mb-2">
+                  {ts.map(t=>(
+                    <div key={t.id} className="flex items-start gap-2 rounded-xl p-2.5"
+                         style={{background:"#F8FAFC",border:"1px solid var(--line-soft)"}}>
+                      <span className="text-base flex-shrink-0">{t.emoji}</span>
+                      <span className="text-sm font-semibold text-slate-700 leading-relaxed track-tight">{t.text}</span>
+                    </div>
+                  ))}
+                </div>
+                {m.message&&(
+                  <div className="rounded-xl p-3.5 mt-2"
+                       style={{background:"linear-gradient(180deg,#ECFDF5,#F0FDF4)",borderLeft:"3px solid #10B981"}}>
+                    <p className="text-sm font-semibold text-slate-700 leading-relaxed whitespace-pre-wrap track-tight">"{m.message}"</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [me,setMe]=useState(()=>sessionStorage.getItem("gu_me")||null);
+  const login=n=>{setMe(n);sessionStorage.setItem("gu_me",n);};
+  const logout=()=>{setMe(null);sessionStorage.removeItem("gu_me");_pf=null;};
+  return me?<Dashboard me={me} onLogout={logout}/>:<LoginScreen onLogin={login}/>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
